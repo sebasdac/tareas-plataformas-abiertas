@@ -1,0 +1,170 @@
+{
+  "info": {
+    "name": "Práctica #3 - Métodos HTTP (Estudiantes)",
+    "description": "Pruebas de GET, POST, PUT y DELETE de la API Flask estudiantes, sin base de datos.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET - Obtener estudiantes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/estudiantes",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "estudiantes"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Estado HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "var datos = pm.response.json();",
+              "pm.test(\"Mensaje correcto\", function () { pm.expect(datos.mensaje).to.eql(\"Lista de estudiantes obtenida correctamente.\"); });",
+              "pm.test(\"Lista de estudiantes\", function () { pm.expect(datos.estudiantes).to.eql([\"Ana\", \"Carlos\", \"María\"]); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "POST - Agregar estudiante",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/estudiantes",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "estudiantes"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Pedro\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Estado HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "var datos = pm.response.json();",
+              "pm.test(\"Mensaje correcto\", function () { pm.expect(datos.mensaje).to.eql(\"Estudiante agregado correctamente.\"); });",
+              "pm.test(\"Nombre recibido\", function () { pm.expect(datos.estudiante).to.eql(\"Pedro\"); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "PUT - Actualizar estudiante",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/estudiantes/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "estudiantes",
+            "1"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Pedro Ramírez\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Estado HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "var datos = pm.response.json();",
+              "pm.test(\"Mensaje correcto\", function () { pm.expect(datos.mensaje).to.eql(\"Estudiante actualizado correctamente.\"); });",
+              "pm.test(\"ID correcto\", function () { pm.expect(datos.id).to.eql(1); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "DELETE - Eliminar estudiante",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/estudiantes/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "estudiantes",
+            "1"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Estado HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "var datos = pm.response.json();",
+              "pm.test(\"Mensaje correcto\", function () { pm.expect(datos.mensaje).to.eql(\"Estudiante eliminado correctamente.\"); });",
+              "pm.test(\"ID correcto\", function () { pm.expect(datos.id).to.eql(1); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:5000",
+      "type": "string"
+    }
+  ]
+}
