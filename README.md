@@ -1,85 +1,57 @@
-# Tareas - Plataformas Abiertas
+# Práctica 3 - Métodos HTTP
 
-## Práctica #3: Métodos HTTP con Flask
+En esta práctica hice una API sencilla de estudiantes usando Python y Flask. La idea era practicar los métodos HTTP GET, POST, PUT y DELETE, y ver cómo responde cada uno desde Postman.
 
-API sencilla llamada **estudiantes**, con cuatro endpoints: GET, POST, PUT y DELETE. Esta práctica **simula** las operaciones con datos de ejemplo: no usa base de datos y no almacena ni modifica datos.
+No utilicé una base de datos porque la práctica solo pide simular las operaciones. Por eso, aunque se envíe un estudiante nuevo o se elimine uno, la lista de ejemplo no cambia.
 
-### Requisitos
+## Cómo ejecutar el proyecto
 
-- Python 3.9 o superior.
-- Flask (se instala con el archivo `requirements.txt`).
-- Postman para probar los cuatro endpoints.
+Primero hay que tener Python instalado. Después, abrir el proyecto en Visual Studio Code y ejecutar estos comandos en la terminal:
 
-### 1. Ejecutar el proyecto en Windows
-
-Abrir la carpeta `tareas-plataformas-abiertas` en Visual Studio Code, abrir **Terminal > New Terminal** y ejecutar:
-
-```powershell
+```bash
 cd estudiantes
 python -m pip install -r requirements.txt
 python app.py
 ```
 
-Si Windows no reconoce `python`, intentar `py` en los comandos anteriores. Cuando se ejecute correctamente, Flask mostrará una dirección similar a `http://127.0.0.1:5000`.
+Si todo está bien, la API queda funcionando en `http://127.0.0.1:5000`.
 
-**Nota:** si la terminal ya está dentro de la carpeta `estudiantes`, no repetir `cd estudiantes`.
+## Métodos que hice
 
-### 2. Probar en Postman
+- **GET `/estudiantes`**: muestra una lista de ejemplo con Ana, Carlos y María.
+- **POST `/estudiantes`**: recibe el nombre de un estudiante en JSON y responde que fue agregado.
+- **PUT `/estudiantes/1`**: recibe un nombre nuevo en JSON y responde que el estudiante con ID 1 fue actualizado.
+- **DELETE `/estudiantes/1`**: responde que el estudiante con ID 1 fue eliminado.
 
-Importar `postman/Practica_3_Metodos_HTTP.postman_collection.json` desde **Import** en Postman. Tiene las cuatro peticiones y pruebas automáticas de sus respuestas. Con la API ejecutándose, presionar **Send** en cada petición.
+Para el **POST**, se puede enviar este JSON:
 
-| Método | URL | Body JSON |
-|---|---|---|
-| GET | `http://127.0.0.1:5000/estudiantes` | No necesita |
-| POST | `http://127.0.0.1:5000/estudiantes` | `{"nombre":"Pedro"}` |
-| PUT | `http://127.0.0.1:5000/estudiantes/1` | `{"nombre":"Pedro Ramírez"}` |
-| DELETE | `http://127.0.0.1:5000/estudiantes/1` | No necesita |
-
-Las peticiones POST y PUT usan **Body > raw > JSON**. En respuestas correctas, los cuatro métodos devuelven HTTP **200 OK**.
-
-### 3. Resultados esperados
-
-**GET** devuelve el mensaje `Lista de estudiantes obtenida correctamente.` y una lista con Ana, Carlos y María.
-
-**POST** devuelve el mensaje `Estudiante agregado correctamente.` y `"estudiante": "Pedro"`.
-
-**PUT** devuelve el mensaje `Estudiante actualizado correctamente.` y `"id": 1`.
-
-**DELETE** devuelve el mensaje `Estudiante eliminado correctamente.` y `"id": 1`.
-
-No se necesita guardar los cambios en memoria. Por eso, GET siempre devuelve la lista de ejemplo incluso después de ejecutar POST o DELETE.
-
-### 4. Pruebas opcionales con Python
-
-Con la terminal situada en la raíz `tareas-plataformas-abiertas`, ejecutar:
-
-```powershell
-python -m unittest discover -s tests -v
+```json
+{
+  "nombre": "Pedro"
+}
 ```
 
-Esto verifica automáticamente las respuestas de los cuatro endpoints, y que POST y PUT exigen un nombre válido.
+Y para el **PUT**, este:
 
-### 5. Subir a GitHub
-
-Crear un repositorio en GitHub llamado `tareas-plataformas-abiertas` si todavía no existe. Desde la terminal situada en la raíz del proyecto:
-
-```powershell
-git init
-git add .
-git commit -m "Practica 3 - Metodos HTTP"
-git branch -M main
-git remote add origin https://github.com/TU_USUARIO/tareas-plataformas-abiertas.git
-git push -u origin main
+```json
+{
+  "nombre": "Pedro Ramírez"
+}
 ```
 
-Reemplazar `TU_USUARIO` con tu usuario de GitHub. Si el repositorio remoto ya tiene archivos o existe un remoto `origin`, primero verificar la configuración de Git para evitar reemplazar trabajo existente.
+## Pruebas con Postman
 
-### Requisitos cubiertos
+Con la API ejecutándose, se pueden probar las cuatro peticiones en Postman usando la dirección `http://127.0.0.1:5000` y las rutas anteriores.
 
-- Uso de Flask.
-- GET `/estudiantes`.
-- POST `/estudiantes` con JSON.
-- PUT `/estudiantes/1` con JSON.
-- DELETE `/estudiantes/1`.
-- Colección para probar los cuatro métodos en Postman.
-- Proyecto listo para subir a GitHub.
+En POST y PUT hay que entrar a **Body**, seleccionar **raw** y luego **JSON** para enviar el nombre. GET y DELETE no necesitan body.
+
+También dejé una colección de Postman en la carpeta `postman` para no tener que crear las solicitudes una por una.
+
+## Archivos del proyecto
+
+- `estudiantes/app.py`: código de la API.
+- `estudiantes/requirements.txt`: dependencia de Flask.
+- `postman/`: colección para probar las peticiones.
+- `tests/`: pruebas sencillas de los endpoints.
+
+Con esto se cubren los cuatro métodos HTTP pedidos en la práctica sin necesidad de guardar datos realmente.
